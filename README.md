@@ -6,6 +6,20 @@ The application retrieves relevant information from the uploaded documents using
 
 ---
 
+## 🖥️ Application Preview
+
+### PDF Upload and Chat
+
+![PDF RAG Assistant](screenshots/app-home.png)
+
+### RAG Answer
+
+![RAG Answer](screenshots/rag-answer.png)
+
+### Source References
+
+![Source References](screenshots/sources.png)
+
 ## 🚀 Features
 
 - 📄 Upload one or multiple PDF documents
@@ -50,3 +64,57 @@ Prompt + Retrieved Context
 Ollama LLM
       ↓
 Grounded Answer + Sources
+
+
+
+Architecture
+
+                    ┌──────────────────┐
+                    │   PDF Documents  │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │  PyPDFLoader     │
+                    │  Text Extraction │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │ Text Splitter    │
+                    │ 700 / 100 chunks │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │ Hugging Face     │
+                    │ Embeddings       │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │ FAISS Vector DB  │
+                    └────────┬─────────┘
+                             │
+                    User Question
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │ MMR Retriever    │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │ Relevant Context │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │ Ollama / Llama   │
+                    │ 3.2 3B           │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │ Answer + Sources │
+                    └──────────────────┘
